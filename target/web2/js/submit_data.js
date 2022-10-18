@@ -14,16 +14,15 @@ function saveData() {
                 "x": x_value.trim(),
                 "y": y_value.trim(),
                 "r": r_value.trim(),
-                "clean": 'false',
                 "timezone": new Date().getTimezoneOffset()
-            }//,
-            // success: function (data) {
-            //     console.log(data)
-            //     addInTable(data);
-            // },
-            // error: function (data) {
-            //     alert(data);
-            // }
+            },
+            success: function (data) {
+                console.log(data)
+                // addInTable(data);
+            },
+            error: function (data) {
+                alert(data);
+            }
         });
     } else {
         alert("false");
