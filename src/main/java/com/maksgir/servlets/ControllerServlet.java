@@ -14,7 +14,9 @@ public class ControllerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        if (req.getParameter("init") != null && Boolean.parseBoolean(req.getParameter("init"))) {
+            // метод возвращающий значения таблицы из сессии
+        }
 
         if (req.getParameter("clean") != null && Boolean.parseBoolean(req.getParameter("clean"))) {
             // метод по очистке таблице
@@ -30,7 +32,6 @@ public class ControllerServlet extends HttpServlet {
             RequestValues reqValues = new RequestValues(x, y, r, timezone);
 
             // метод по обработке запроса
-
         }
 
 

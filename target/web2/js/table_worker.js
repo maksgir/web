@@ -1,8 +1,9 @@
 function initialize_table() {
     $.ajax({
         type: "GET",
-        url: "php/index.php",
+        url: "submit",
         async: false,
+        data: {"init" : 'true'},
         success: function(response) {
             console.log(response);
             addInTable(response);
