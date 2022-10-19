@@ -13,7 +13,7 @@ function saveData() {
             data: {
                 "x": x_value.trim(),
                 "y": y_value.trim(),
-                "r": 'efvev',
+                "r": r_value.trim(),
                 "timezone": new Date().getTimezoneOffset()
             },
             success: function (data) {

@@ -37,16 +37,18 @@ public class ControllerServlet extends HttpServlet {
             String r = req.getParameter("r").trim();
             String timezone = req.getParameter("timezone").trim();
             if (paramsValidator.validate(x, y, r, timezone, writer)) {
-                System.out.println("Параметры валидны");
-            } else {
-                System.out.println("Параметры не валидны");
-            }
+//                Параметры валидны
 
-//            RequestParams reqValues = new RequestParams(x, y, r, timezone);
+                RequestParams reqValues = new RequestParams(Integer.parseInt(x), Integer.parseInt(y),
+                        Double.parseDouble(r), Integer.parseInt(timezone));
+                req.setAttribute("params", reqValues);
+                getServletContext().getRequestDispatcher("/check-area").forward(req, resp);
+            } else {
+//                Параметры не валидны
+
+            }
 
             // метод по обработке запроса
         }
-
-
     }
 }
