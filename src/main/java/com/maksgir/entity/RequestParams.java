@@ -1,12 +1,12 @@
 package com.maksgir.entity;
 
-public class RequestValues {
+public class RequestParams {
     private Integer x;
     private Integer y;
     private Double r;
     private Integer timezone;
 
-    public RequestValues(Integer x, Integer y, Double r, Integer timezone) {
+    public RequestParams(Integer x, Integer y, Double r, Integer timezone) {
         this.x = x;
         this.y = y;
         this.r = r;
