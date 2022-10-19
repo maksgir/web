@@ -2,6 +2,7 @@ package com.maksgir.servlets;
 
 
 import com.maksgir.entity.RequestParams;
+import com.maksgir.entity.ResponseParams;
 import com.maksgir.util.AreaHitChecker;
 
 import javax.servlet.ServletException;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalTime;
 
 @WebServlet("/check-area")
 public class AreaCheckServlet extends HttpServlet {
@@ -17,10 +20,16 @@ public class AreaCheckServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestParams params = (RequestParams) req.getAttribute("params");
+        RequestParams requestParams = (RequestParams) req.getAttribute("params");
+        LocalTime start = (LocalTime) req.getAttribute("start_time");
 
-        if (hitChecker.checkHit(params.getX(), params.getY(), params.getR())){
-            // метод по созданию ответа
-        }
+        String answer = hitChecker.checkHit(requestParams.getX(), requestParams.getY(), requestParams.getR()) ?
+                "Попал" : "Не попал";
+
+        ResponseParams responseParams = new ResponseParams(requestParams.getX(), requestParams.getY(),
+                requestParams.getR(), answer, start);
+
+        System.out.println(responseParams);
+
     }
 }

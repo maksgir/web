@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalTime;
 import java.util.Locale;
 
 @WebServlet("/submit")
@@ -27,6 +28,7 @@ public class ControllerServlet extends HttpServlet {
         if (req.getParameter("clean") != null && Boolean.parseBoolean(req.getParameter("clean"))) {
             // метод по очистке таблице
         }
+        req.setAttribute("start_time", LocalTime.now());
         if (req.getParameter("x") != null &&
                 req.getParameter("y") != null &&
                 req.getParameter("r") != null &&
