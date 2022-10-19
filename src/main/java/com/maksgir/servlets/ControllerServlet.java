@@ -1,9 +1,9 @@
 package com.maksgir.servlets;
 
 import com.maksgir.entity.RequestParams;
-import com.maksgir.entity.ResponseParams;
-import com.maksgir.util.HtmlTableCreator;
+import com.maksgir.entity.RowBean;
 import com.maksgir.util.ParamsValidator;
+import org.json.JSONArray;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +16,6 @@ import java.io.PrintWriter;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 @WebServlet("/submit")
 public class ControllerServlet extends HttpServlet {
@@ -28,12 +27,22 @@ public class ControllerServlet extends HttpServlet {
         PrintWriter writer = resp.getWriter();
         HttpSession session = req.getSession();
 
+        createTableIfNeeded(session);
+        // прилетел запрос на инициализацию таблицы
         if (req.getParameter("init") != null && Boolean.parseBoolean(req.getParameter("init"))) {
+            resp.setContentType("application/json");
             initTable(writer, session);
-        } else if (req.getParameter("clean") != null && Boolean.parseBoolean(req.getParameter("clean"))) {
+
+        }
+        // прилетел запрос на очистку
+        else if (req.getParameter("clean") != null && Boolean.parseBoolean(req.getParameter("clean"))) {
+
             clearTable(session);
             writer.write("Таблица успешно очищена");
-        } else if (req.getParameter("x") != null &&
+
+        }
+        // прилетел запрос проверку попадания
+        else if (req.getParameter("x") != null &&
                 req.getParameter("y") != null &&
                 req.getParameter("r") != null &&
                 req.getParameter("timezone") != null) {
@@ -42,12 +51,11 @@ public class ControllerServlet extends HttpServlet {
             String x = req.getParameter("x").trim();
             String y = req.getParameter("y").trim();
             String r = req.getParameter("r").trim();
-            String timezone = req.getParameter("timezone").trim();
-            if (paramsValidator.validate(x, y, r, timezone, writer)) {
+            if (paramsValidator.validate(x, y, r, writer)) {
 
-                RequestParams reqValues = new RequestParams(Integer.parseInt(x), Integer.parseInt(y),
-                        Double.parseDouble(r), Integer.parseInt(timezone));
-                req.setAttribute("params", reqValues);
+                RequestParams requestParams = new RequestParams(Integer.parseInt(x), Integer.parseInt(y),
+                        Double.parseDouble(r));
+                req.setAttribute("params", requestParams);
                 getServletContext().getRequestDispatcher("/check-area").forward(req, resp);
             } else {
                 resp.setStatus(400);
@@ -60,21 +68,22 @@ public class ControllerServlet extends HttpServlet {
         }
     }
 
-
-    private void initTable(PrintWriter writer, HttpSession session) {
-        List<ResponseParams> responseBeans = (List<ResponseParams>) session.getAttribute("responseBeans");
-        if (responseBeans == null) {
-            session.setAttribute("responseBeans", new ArrayList<ResponseParams>());
-        } else {
-            writer.write(HtmlTableCreator.createTableRows(responseBeans));
+    private void createTableIfNeeded(HttpSession session){
+        List<RowBean> table = (List<RowBean>) session.getAttribute("table");
+        if (table == null) {
+            session.setAttribute("table", new ArrayList<RowBean>());
         }
     }
 
+
+    private void initTable(PrintWriter writer, HttpSession session) {
+        List<RowBean> table = (List<RowBean>) session.getAttribute("table");
+        writer.print(new JSONArray(table));
+        writer.close();
+    }
+
     private void clearTable(HttpSession session) {
-        List<ResponseParams> responseBeans = (List<ResponseParams>) session.getAttribute("responseBeans");
-        if (responseBeans != null) {
-            responseBeans.clear();
-        }
+        session.setAttribute("table", new ArrayList<RowBean>());
     }
 
 

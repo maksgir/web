@@ -17,7 +17,12 @@ function saveData() {
                 "timezone": new Date().getTimezoneOffset()
             },
             success: function (data) {
-                addInTable(data)
+                console.log(data);
+                let x = data.x, y = data.y, r = data.r, hit = data.hit;
+                // let point = createPoint(board, x, y, hit);
+                // point.showElement();
+                // points[r].push(point);
+                addInTable(convertToHtmlTable(data));
             },
             error: function (data) {
                 alert(data);

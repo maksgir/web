@@ -2,9 +2,10 @@ package com.maksgir.servlets;
 
 
 import com.maksgir.entity.RequestParams;
-import com.maksgir.entity.ResponseParams;
+import com.maksgir.entity.RowBean;
 import com.maksgir.util.AreaHitChecker;
-import com.maksgir.util.HtmlTableCreator;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,15 +31,17 @@ public class AreaCheckServlet extends HttpServlet {
         String answer = hitChecker.checkHit(requestParams.getX(), requestParams.getY(), requestParams.getR()) ?
                 "Попал" : "Не попал";
 
-        ResponseParams responseParams = new ResponseParams(requestParams.getX(), requestParams.getY(),
+        RowBean row = new RowBean(requestParams.getX(), requestParams.getY(),
                 requestParams.getR(), answer, start);
 
         HttpSession session = req.getSession();
 
-        List<ResponseParams> responseBeans = (List<ResponseParams>) session.getAttribute("responseBeans");
-        responseBeans.add(responseParams);
+        List<RowBean> table = (List<RowBean>) session.getAttribute("table");
+        table.add(row);
 
-        writer.write(HtmlTableCreator.createTableRow(responseParams));
+        resp.setContentType("application/json");
+        writer.print(new JSONObject(row));
+        writer.close();
 
     }
 }

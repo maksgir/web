@@ -14,6 +14,7 @@ public class CharacterEncodingFilter implements Filter {
 
         response.setCharacterEncoding("utf-8");
 
+
         // Разрешить request продвигаться дальше. (Перейти данный Filter).
         chain.doFilter(request, response);
 

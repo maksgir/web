@@ -4,13 +4,13 @@ public class RequestParams {
     private Integer x;
     private Integer y;
     private Double r;
-    private Integer timezone;
 
-    public RequestParams(Integer x, Integer y, Double r, Integer timezone) {
+
+    public RequestParams(Integer x, Integer y, Double r) {
         this.x = x;
         this.y = y;
         this.r = r;
-        this.timezone = timezone;
+
     }
 
     public Integer getX() {
@@ -37,13 +37,6 @@ public class RequestParams {
         this.r = r;
     }
 
-    public Integer getTimezone() {
-        return timezone;
-    }
-
-    public void setTimezone(Integer timezone) {
-        this.timezone = timezone;
-    }
 
     @Override
     public String toString() {
@@ -51,7 +44,6 @@ public class RequestParams {
                 "x=" + x +
                 ", y=" + y +
                 ", r=" + r +
-                ", timezone=" + timezone +
                 '}';
     }
 }

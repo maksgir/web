@@ -4,22 +4,22 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-public class ResponseParams {
-    private Integer x;
-    private Integer y;
-    private Double r;
-    private String answer;
+public class RowBean {
+    private int x;
+    private int y;
+    private double r;
+    private String hit;
     private double executionTime;
-    private LocalDateTime dt;
+    private String dt;
 
-    public ResponseParams(Integer x, Integer y, Double r, String answer, LocalTime start) {
+    public RowBean(int x, int y, double r, String hit, LocalTime start) {
         this.x = x;
         this.y = y;
         this.r = r;
-        this.answer = answer;
-        this.executionTime = (LocalTime.now().getNano() - start.getNano()) / Math.pow(10, 3);
-        this.dt = LocalDateTime.now();
-        System.out.println(dt.toLocalTime());
+        this.hit = hit;
+        this.executionTime = (LocalTime.now().getNano() - start.getNano()) / Math.pow(10, 6);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss yyyy-MM-dd");
+        this.dt = LocalDateTime.now().format(formatter);
     }
 
     public Integer getX() {
@@ -46,12 +46,12 @@ public class ResponseParams {
         this.r = r;
     }
 
-    public String getAnswer() {
-        return answer;
+    public String getHit() {
+        return hit;
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public void setHit(String hit) {
+        this.hit = hit;
     }
 
     public double getExecutionTime() {
@@ -62,27 +62,21 @@ public class ResponseParams {
         this.executionTime = executionTime;
     }
 
-    public LocalDateTime getDt() {
+    public String getDt() {
         return dt;
     }
 
-    public String getStringDt() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss yyyy-MM-dd");
-
-        return dt.format(formatter);
-    }
-
-    public void setDt(LocalDateTime dt) {
+    public void setDt(String dt) {
         this.dt = dt;
     }
 
     @Override
     public String toString() {
-        return "ResponseParams{" +
+        return "RowBean{" +
                 "x=" + x +
                 ", y=" + y +
                 ", r=" + r +
-                ", answer='" + answer + '\'' +
+                ", answer='" + hit + '\'' +
                 ", executionTime=" + executionTime +
                 ", dt=" + dt +
                 '}';
