@@ -19,14 +19,14 @@ function clean_table() {
         type: "GET",
         url: "submit",
         async: false,
-        data: {"clean" : 'true'}
-        // success: function(response) {
-        //     let tBody = document.querySelector('#table_body');
-        //     tBody.innerHTML = '';
-        // },
-        // error: function(response) {
-        //     alert(response);
-        // }
+        data: {"clean" : 'true'},
+        success: function(response) {
+            let tBody = document.querySelector('#table_body');
+            tBody.innerHTML = '';
+        },
+        error: function(response) {
+            alert(response);
+        }
     });
 }
 

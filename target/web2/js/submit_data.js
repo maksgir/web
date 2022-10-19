@@ -17,8 +17,7 @@ function saveData() {
                 "timezone": new Date().getTimezoneOffset()
             },
             success: function (data) {
-                console.log(data)
-                // addInTable(data);
+                addInTable(data)
             },
             error: function (data) {
                 alert(data);

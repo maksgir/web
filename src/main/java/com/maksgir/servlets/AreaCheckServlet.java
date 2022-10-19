@@ -4,15 +4,18 @@ package com.maksgir.servlets;
 import com.maksgir.entity.RequestParams;
 import com.maksgir.entity.ResponseParams;
 import com.maksgir.util.AreaHitChecker;
+import com.maksgir.util.HtmlTableCreator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Date;
+import java.io.PrintWriter;
 import java.time.LocalTime;
+import java.util.List;
 
 @WebServlet("/check-area")
 public class AreaCheckServlet extends HttpServlet {
@@ -20,6 +23,7 @@ public class AreaCheckServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        PrintWriter writer = resp.getWriter();
         RequestParams requestParams = (RequestParams) req.getAttribute("params");
         LocalTime start = (LocalTime) req.getAttribute("start_time");
 
@@ -29,7 +33,12 @@ public class AreaCheckServlet extends HttpServlet {
         ResponseParams responseParams = new ResponseParams(requestParams.getX(), requestParams.getY(),
                 requestParams.getR(), answer, start);
 
-        System.out.println(responseParams);
+        HttpSession session = req.getSession();
+
+        List<ResponseParams> responseBeans = (List<ResponseParams>) session.getAttribute("responseBeans");
+        responseBeans.add(responseParams);
+
+        writer.write(HtmlTableCreator.createTableRow(responseParams));
 
     }
 }
