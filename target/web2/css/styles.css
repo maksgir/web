@@ -77,6 +77,8 @@ tr > th {
 
 .result {
     color: rgba(224, 0, 253, 0.92);
+    text-align: center;
+    font-style: inherit;
 }
 
 /*Стиль для кнопки*/

@@ -5,36 +5,36 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class RowBean {
-    private int x;
-    private int y;
+    private double x;
+    private double y;
     private double r;
     private String hit;
     private double executionTime;
     private String dt;
 
-    public RowBean(int x, int y, double r, String hit, LocalTime start) {
+    public RowBean(double x, double y, double r, String hit, long start, int timezone) {
         this.x = x;
         this.y = y;
         this.r = r;
         this.hit = hit;
-        this.executionTime = (LocalTime.now().getNano() - start.getNano()) / Math.pow(10, 6);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss yyyy-MM-dd");
-        this.dt = LocalDateTime.now().format(formatter);
+        this.dt = LocalDateTime.now().plusHours(timezone).format(formatter);
+        this.executionTime = System.currentTimeMillis() - start;
     }
 
-    public Integer getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(Integer x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public Integer getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(Integer y) {
+    public void setY(double y) {
         this.y = y;
     }
 

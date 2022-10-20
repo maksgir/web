@@ -10,14 +10,16 @@ public class ParamsValidator {
     private final float R_MIN = 1;
     private final float R_MAX = 3;
 
-    public boolean validate(String x_str, String y_str, String r_str,  PrintWriter writer) {
-        Integer x = null;
-        Integer y = null;
+    public boolean validate(String x_str, String y_str, String r_str, String timezone_str, PrintWriter writer) {
+        Double x = null;
+        Double y = null;
         Double r = null;
+        Integer timezone = null;
         try {
-            x = Integer.parseInt(x_str);
-            y = Integer.parseInt(y_str);
+            x = Double.parseDouble(x_str);
+            y = Double.parseDouble(y_str);
             r = Double.parseDouble(r_str);
+            timezone = Integer.parseInt(timezone_str);
         } catch (Exception e) {
             writer.write("Ошибка преобразования переданного параметра: " + "\n\t" + e.getMessage());
             return false;

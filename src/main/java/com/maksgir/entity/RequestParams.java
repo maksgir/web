@@ -1,31 +1,32 @@
 package com.maksgir.entity;
 
 public class RequestParams {
-    private Integer x;
-    private Integer y;
+    private Double x;
+    private Double y;
     private Double r;
+    private Integer timezone;
 
 
-    public RequestParams(Integer x, Integer y, Double r) {
+    public RequestParams(Double x, Double y, Double r, Integer timezone) {
         this.x = x;
         this.y = y;
         this.r = r;
-
+        this.timezone = timezone;
     }
 
-    public Integer getX() {
+    public Double getX() {
         return x;
     }
 
-    public void setX(Integer x) {
+    public void setX(Double x) {
         this.x = x;
     }
 
-    public Integer getY() {
+    public Double getY() {
         return y;
     }
 
-    public void setY(Integer y) {
+    public void setY(Double y) {
         this.y = y;
     }
 
@@ -37,13 +38,21 @@ public class RequestParams {
         this.r = r;
     }
 
+    public Integer getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(Integer timezone) {
+        this.timezone = timezone;
+    }
 
     @Override
     public String toString() {
-        return "Request{" +
+        return "RequestParams{" +
                 "x=" + x +
                 ", y=" + y +
                 ", r=" + r +
+                ", timezone=" + timezone +
                 '}';
     }
 }

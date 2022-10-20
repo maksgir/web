@@ -1,14 +1,14 @@
-function initialize_table() {
+function initialize_table(board, points) {
     $.ajax({
         type: "GET",
         url: "submit",
         async: false,
         data: {"init" : 'true'},
         success: function(response) {
-            Array.from(response).forEach(function (element) {
-                let x = element.x, y = element.y, r = element.r, hit = element.hit;
-                // points[r].push(createPoint(board, x, y, hit));
-                addInTable(convertToHtmlTable(element));
+            Array.from(response).forEach(function (row) {
+                let x = row.x, y = row.y, r = row.r, hit = row.hit;
+                points[r].push(createPoint(board, x, y, hit));
+                addInTable(convertToHtmlTable(row));
             }
             );
             console.log(response);
@@ -26,6 +26,7 @@ function clean_table() {
         async: false,
         data: {"clean" : 'true'},
         success: function(response) {
+            console.log(response);
             let tBody = document.querySelector('#table_body');
             tBody.innerHTML = '';
         },

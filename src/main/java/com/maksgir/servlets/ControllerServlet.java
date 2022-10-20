@@ -47,14 +47,15 @@ public class ControllerServlet extends HttpServlet {
                 req.getParameter("r") != null &&
                 req.getParameter("timezone") != null) {
 
-            req.setAttribute("start_time", LocalTime.now());
+            req.setAttribute("start", System.currentTimeMillis());
             String x = req.getParameter("x").trim();
             String y = req.getParameter("y").trim();
             String r = req.getParameter("r").trim();
-            if (paramsValidator.validate(x, y, r, writer)) {
+            String timezone = req.getParameter("timezone").trim();
+            if (paramsValidator.validate(x, y, r, timezone, writer)) {
 
-                RequestParams requestParams = new RequestParams(Integer.parseInt(x), Integer.parseInt(y),
-                        Double.parseDouble(r));
+                RequestParams requestParams = new RequestParams(Double.parseDouble(x), Double.parseDouble(y),
+                        Double.parseDouble(r), Integer.parseInt(timezone));
                 req.setAttribute("params", requestParams);
                 getServletContext().getRequestDispatcher("/check-area").forward(req, resp);
             } else {
@@ -66,6 +67,7 @@ public class ControllerServlet extends HttpServlet {
             resp.setStatus(400);
             writer.write("Не все параметры заданы");
         }
+        writer.close();
     }
 
     private void createTableIfNeeded(HttpSession session){
@@ -79,7 +81,6 @@ public class ControllerServlet extends HttpServlet {
     private void initTable(PrintWriter writer, HttpSession session) {
         List<RowBean> table = (List<RowBean>) session.getAttribute("table");
         writer.print(new JSONArray(table));
-        writer.close();
     }
 
     private void clearTable(HttpSession session) {

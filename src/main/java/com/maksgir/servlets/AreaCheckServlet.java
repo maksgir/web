@@ -26,13 +26,13 @@ public class AreaCheckServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter writer = resp.getWriter();
         RequestParams requestParams = (RequestParams) req.getAttribute("params");
-        LocalTime start = (LocalTime) req.getAttribute("start_time");
+        long start = (long) req.getAttribute("start");
 
         String answer = hitChecker.checkHit(requestParams.getX(), requestParams.getY(), requestParams.getR()) ?
                 "Попал" : "Не попал";
 
         RowBean row = new RowBean(requestParams.getX(), requestParams.getY(),
-                requestParams.getR(), answer, start);
+                requestParams.getR(), answer, start, requestParams.getTimezone());
 
         HttpSession session = req.getSession();
 
