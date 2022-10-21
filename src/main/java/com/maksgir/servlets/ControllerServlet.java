@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +30,35 @@ public class ControllerServlet extends HttpServlet {
 
         createTableIfNeeded(session);
         // прилетел запрос на инициализацию таблицы
-        if (req.getParameter("init") != null && Boolean.parseBoolean(req.getParameter("init"))) {
+        String init_msg = req.getParameter("init");
+        Boolean init_bool = null;
+        if (init_msg != null) {
+            try {
+                init_bool = Boolean.parseBoolean(req.getParameter("init"));
+            } catch (Exception e) {
+                resp.sendError(400, "Bad init param");
+                return;
+            }
+        }
+
+        String clean_msg = req.getParameter("clean");
+        Boolean clean_bool = null;
+        if (clean_msg != null) {
+            try {
+                clean_bool = Boolean.parseBoolean(req.getParameter("clean"));
+            } catch (Exception e) {
+                resp.sendError(400, "Bad clean param");
+                return;
+            }
+        }
+
+
+        if (init_bool != null && init_bool) {
             resp.setContentType("application/json");
             initTable(writer, session);
-
         }
         // прилетел запрос на очистку
-        else if (req.getParameter("clean") != null && Boolean.parseBoolean(req.getParameter("clean"))) {
+        else if (clean_bool != null && clean_bool) {
 
             clearTable(session);
             writer.write("Таблица успешно очищена");
@@ -70,7 +93,7 @@ public class ControllerServlet extends HttpServlet {
         writer.close();
     }
 
-    private void createTableIfNeeded(HttpSession session){
+    private void createTableIfNeeded(HttpSession session) {
         List<RowBean> table = (List<RowBean>) session.getAttribute("table");
         if (table == null) {
             session.setAttribute("table", new ArrayList<RowBean>());
@@ -85,6 +108,7 @@ public class ControllerServlet extends HttpServlet {
 
     private void clearTable(HttpSession session) {
         session.setAttribute("table", new ArrayList<RowBean>());
+        session.setAttribute("lastMod", LocalDateTime.now());
     }
 
 

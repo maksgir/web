@@ -1,36 +1,63 @@
-function initialize_table(board, points) {
+function initialize_table(board) {
     $.ajax({
         type: "GET",
         url: "submit",
         async: false,
-        data: {"init" : 'true'},
-        success: function(response) {
+        data: {"init": 'true'},
+        success: function (response) {
             Array.from(response).forEach(function (row) {
-                let x = row.x, y = row.y, r = row.r, hit = row.hit;
-                points[r].push(createPoint(board, x, y, hit));
-                addInTable(convertToHtmlTable(row));
-            }
+
+                    addInTable(convertToHtmlTable(row));
+                }
             );
             console.log(response);
         },
-        error: function(response) {
+        error: function (response) {
             alert(response);
         }
     });
 }
 
-function clean_table() {
+function getPoints(board, radius, points) {
     $.ajax({
         type: "GET",
         url: "submit",
         async: false,
-        data: {"clean" : 'true'},
-        success: function(response) {
+        data: {"init": 'true'},
+        success: function (response) {
+            Array.from(response).forEach(function (row) {
+                    let x = row.x, y = row.y, r = row.r, hit = row.hit;
+
+                    if (r.toString() === radius.toString()) {
+                        console.log("doroy");
+                        let p = createPoint(board, x, y, hit);
+                        console.log(p);
+                        points.push(p);
+                    }
+                }
+            );
+
+        },
+        error: function (response) {
+            alert(response);
+        }
+    });
+}
+
+function clean_table(points) {
+    $.ajax({
+        type: "GET",
+        url: "submit",
+        async: false,
+        data: {"clean": 'true'},
+        success: function (response) {
             console.log(response);
             let tBody = document.querySelector('#table_body');
             tBody.innerHTML = '';
+            points.forEach(element => element.remove());
+            points = [];
         },
-        error: function(response) {
+        error: function (response) {
             alert(response);
         }
     });

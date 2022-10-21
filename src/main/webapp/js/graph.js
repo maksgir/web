@@ -2,18 +2,10 @@ $(function () {
     console.log("ready!");
 
     let board = JXG.JSXGraph.initBoard('jxgbox', {boundingbox: [-8, 6, 8, -6], axis: true, showCopyright: false});
-    let pointsByRadius = {};
     let figures = [];
+    var points = [];
 
-
-    var r_selector = $('#r_val option');
-
-    r_selector.each(function () {
-        let value = $(this).val();
-        pointsByRadius[value] = [];
-    });
-
-    initialize_table(board, pointsByRadius);
+    initialize_table(board);
 
     $('#r_val').on('change', function () {
         clearFigures(board, figures);
@@ -22,16 +14,10 @@ $(function () {
         let triangle = createTriangle(board, newRadius);
         let circle = createCircle(board, newRadius);
         figures = [rectangle, triangle, circle];
-        console.log(pointsByRadius);
-        r_selector.each(function () {
-            let idxRadius = $(this).val();
-            pointsByRadius[idxRadius].forEach(function (point) {
-                if (idxRadius === newRadius)
-                    point.showElement();
-                else
-                    point.hideElement();
-            });
-        });
+
+        points.forEach(element => element.remove());
+        points = [];
+        getPoints(board, newRadius, points);
     });
 
     board.on("down", function (event) {
@@ -44,7 +30,7 @@ $(function () {
             let x = coords[0].toFixed(2);
             let y = coords[1].toFixed(2);
             let r = $('#r_val').val()
-            saveData(board, pointsByRadius, x, y, r);
+            saveData(board, x, y, r, points);
         } else {
             alert("Нужно выбрать R");
         }
@@ -58,14 +44,13 @@ $(function () {
         if (!isCorrect(x, y, r)) {
             alert("Данные не верны");
         } else {
-            saveData(board, pointsByRadius, x, y, r);
+            saveData(board, x, y, r, points);
         }
     });
 
     $('#clearButton').click(function (event) {
         clearFigures(board, figures);
-        clean_table();
-        clearPoints(r_selector, pointsByRadius, 10);
+        clean_table(points);
     });
 
 
@@ -78,21 +63,6 @@ function clearFigures(board, figures) {
         board.removeObject(object);
     }
 }
-
-function clearPoints(r_selector, pointsByRadius, newRadius) {
-    r_selector.each(function () {
-        let idxRadius = $(this).val();
-        pointsByRadius[idxRadius].forEach(function (point) {
-            if (idxRadius === newRadius)
-                point.showElement();
-            else
-                point.hideElement();
-        });
-    });
-}
-
-
-
 
 function createRectangle(board, r) {
     let rectanglePoint1 = board.create('point', [0, 0], {name: '', fixed: true, visible: false});
@@ -126,7 +96,7 @@ function createPoint(board, x, y, hit) {
     console.log(hit);
     let color = (hit === "Попал" ? "#7ce57c" : "#dc4a4a");
     return board.create("point", [x, y], {
-        name: '', fixed: true, visible: false, fillColor: color, fillOpacity: 1,
+        name: '', fixed: true, fillColor: color, fillOpacity: 1,
         strokewidth: 0
     });
 

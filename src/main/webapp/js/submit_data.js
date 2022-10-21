@@ -1,4 +1,4 @@
-function saveData(board, points, x, y, r) {
+function saveData(board, x, y, r, points) {
     $.ajax({
         type: "GET",
         url: "submit",
@@ -12,9 +12,8 @@ function saveData(board, points, x, y, r) {
         success: function (data) {
             console.log(data);
             let x = data.x, y = data.y, r = data.r, hit = data.hit;
-            let point = createPoint(board, x, y, hit);
-            point.showElement();
-            points[r].push(point);
+            let p = createPoint(board, x, y, hit)
+            points.push(p);
             addInTable(convertToHtmlTable(data));
         },
         error: function (data) {
