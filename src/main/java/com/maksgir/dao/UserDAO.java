@@ -1,12 +1,24 @@
 package com.maksgir.dao;
 
 import com.maksgir.config.AppConfig;
-import com.maksgir.entity.User;
+import com.maksgir.entity.UserEntity;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.Session;
 
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
+
+
+@ManagedBean(name = "userDAO")
+@ApplicationScoped
 public class UserDAO {
 
-    public void save(User user) {
+    public UserDAO() {
+//        System.out.println("USER DAO INIT");
+    }
+
+    public void save(UserEntity user) {
         try (Session session = AppConfig.sessionFactory.getCurrentSession();) {
             session.beginTransaction();
 
@@ -20,12 +32,12 @@ public class UserDAO {
 
     }
 
-    public User getById(String id) {
-        User user = null;
+    public UserEntity getById(String id) {
+        UserEntity user = null;
         try (Session session = AppConfig.sessionFactory.getCurrentSession();) {
             session.beginTransaction();
 
-            user = session.get(User.class, id);
+            user = session.get(UserEntity.class, id);
 
             session.getTransaction().commit();
         } catch (Exception e) {

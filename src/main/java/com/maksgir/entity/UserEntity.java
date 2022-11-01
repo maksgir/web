@@ -4,19 +4,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class UserEntity {
     @Id
     @Column(name = "session_id")
-    private String model;
+    private String sessionId;
 
     @OneToMany(mappedBy = "owner")
-    private List<Point> points;
+    private List<PointEntity> points;
 }

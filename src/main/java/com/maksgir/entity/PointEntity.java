@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.sql.Date;
 
 @Entity
@@ -12,8 +12,9 @@ import java.sql.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Point {
+public class PointEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
     private long id;
 
@@ -40,7 +41,7 @@ public class Point {
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
-    private User owner;
+    private UserEntity owner;
 
 
 }
