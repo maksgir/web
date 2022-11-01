@@ -1,16 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:head>
-    <title>Example</title>
+    <title>Веб</title>
+    <link href="css/styles.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css"/>
 </h:head>
 
+
 <h:body>
-    <h:outputText value="#{exampleBean.name}"/>
+    <header class="place">
+        <span>Лабораторная работа №3</span>
+        <span>Гиря Максим Р32131</span>
+        <span>Вариант: 13112</span>
+    </header>
+    <div><h3>Ваш ID сессии:  #{sessionId.id}</h3></div>
+    <div class="container">
+
+        <div class="graph">
+            График
+        </div>
+        <div class="order">
+            <h:form>
+                <label><h3>Значение Х</h3></label>
+                <h:selectOneMenu styleClass="choose" value = "#{point.x}">
+                    <f:selectItem itemValue = "-4" />
+                    <f:selectItem itemValue = "-3" />
+                    <f:selectItem itemValue = "-2" />
+                    <f:selectItem itemValue = "-1" />
+                    <f:selectItem itemValue = "0" />
+                    <f:selectItem itemValue = "1" />
+                    <f:selectItem itemValue = "2" />
+                    <f:selectItem itemValue = "3" />
+                    <f:selectItem itemValue = "4" />
+                </h:selectOneMenu>
+                <br/><br/>
+
+                <label><h3>Значение Y</h3></label>
+                <h:inputText id="y_val" styleClass="choose" value="#{point.y}" validatorMessage="Range of y val is between -3 and 3">
+                    <f:validateDoubleRange minimum="-3" maximum="3" />
+                </h:inputText>
+                <h:message for="y_val" style="color:rgba(253,0,67,0.92)" />
+
+                <br/><br/>
+
+                <label><h3>Значение Х</h3></label>
+                <h:selectOneMenu id="r_val" styleClass="choose" value = "#{point.r}">
+                    <f:selectItem itemValue = "1" />
+                    <f:selectItem itemValue = "1.5" />
+                    <f:selectItem itemValue = "2" />
+                    <f:selectItem itemValue = "2.5" />
+                    <f:selectItem itemValue = "3" />
+                </h:selectOneMenu>
+                <br/><br/>
+                <h:commandButton value = "Submit" styleClass="button" process="input" action = "#{point.submit}" />
+            </h:form>
+
+        </div>
+        <div class="order">
+            Таблица
+        </div>
+    </div>
+    <footer class="place">
+        <span><a href="https://github.com/maksgir"><img style="border-radius: 10px" src="img/gitlogo.png" alt=""/></a></span>
+    </footer>
+
 </h:body>
 </html>

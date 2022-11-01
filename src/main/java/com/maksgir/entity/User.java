@@ -14,9 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 public class User {
     @Id
-    @Column(name = "id")
-    private long id;
-
     @Column(name = "session_id")
     private String model;
 

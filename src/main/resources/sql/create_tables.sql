@@ -3,8 +3,7 @@ CREATE SEQUENCE IF NOT EXISTS seq_user START WITH 1 INCREMENT BY 1;
 
 
 CREATE TABLE IF NOT EXISTS "public"."users" (
-    id INT DEFAULT nextval('seq_user') NOT NULL PRIMARY KEY,
-    session_id VARCHAR(50) NOT NULL
+    session_id VARCHAR(50) NOT NULL PRIMARY KEY
     );
 
 CREATE TABLE IF NOT EXISTS "public"."points" (
@@ -15,11 +14,11 @@ CREATE TABLE IF NOT EXISTS "public"."points" (
     timezone INT NOT NULL,
     dt DATE NOT NULL,
     exe_time double precision NOT NULL,
-    owner_id INT NOT NULL,
+    owner_id VARCHAR(50) NOT NULL,
     hit BOOLEAN NOT NULL,
     CONSTRAINT fk_owner
     FOREIGN KEY(owner_id)
-    REFERENCES users(id)
+    REFERENCES users(session_id)
     );
 
 
