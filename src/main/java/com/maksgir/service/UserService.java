@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 @ManagedBean(name = "userService", eager = true)
 @ApplicationScoped
+@Getter
+@Setter
 public class UserService {
 
     @ManagedProperty(value = "#{userDAO}")
@@ -36,12 +38,8 @@ public class UserService {
         return dao.getById(id);
     }
 
-    public UserDAO getDao() {
-        return dao;
+    public void clearPoints(UserBean userBean){
+        dao.clearPoints(userBean.getId());
     }
 
-    public void setDao(UserDAO dao) {
-//        System.out.println("SET DAO IN USER SERVICE");
-        this.dao = dao;
-    }
 }

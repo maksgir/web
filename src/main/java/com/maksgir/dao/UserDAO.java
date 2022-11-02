@@ -48,4 +48,15 @@ public class UserDAO {
         }
         return user;
     }
+
+    public void clearPoints(String id){
+        try (Session session = AppConfig.sessionFactory.getCurrentSession();) {
+            session.beginTransaction();
+            session.createQuery("delete from PointEntity where owner.sessionId = :id").setParameter("id", id).executeUpdate();
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

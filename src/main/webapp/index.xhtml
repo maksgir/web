@@ -31,7 +31,7 @@
         <div class="order">
             <h:form>
                 <label><h3>Значение Х</h3></label>
-                <h:selectOneMenu styleClass="choose" value = "#{point.x}">
+                <h:selectOneMenu id="x_val" styleClass="choose" value = "#{point.x}">
                     <f:selectItem itemValue = "-4" />
                     <f:selectItem itemValue = "-3" />
                     <f:selectItem itemValue = "-2" />
@@ -61,13 +61,30 @@
                     <f:selectItem itemValue = "3" />
                 </h:selectOneMenu>
                 <br/><br/>
-                <h:inputHidden id="timezone" value="#{point.timezone}"/>
-                <h:commandButton value="Submit" styleClass="button" process="input" action = "#{point.submit}" />
+
+                <h:commandButton value="Submit" styleClass="button" action="#{point.submit}" type="submit">
+                    <f:ajax execute="x_val y_val r_val"/>
+                </h:commandButton>
             </h:form>
 
         </div>
         <div class="order">
-            Таблица
+            <table id="result_table">
+                <h:commandButton value="Clear" styleClass="button" action="#{userBean.clear}" type="submit">
+                    <f:ajax/>
+                </h:commandButton>
+                <tr class="first-line">
+                    <th>X</th>
+                    <th>Y</th>
+                    <th>R</th>
+                    <th>Текущее время</th>
+                    <th>Время выполнения</th>
+                    <th>Результат</th>
+                </tr>
+                <tbody id="table_body">
+
+                </tbody>
+            </table>
         </div>
     </div>
     <footer class="place">

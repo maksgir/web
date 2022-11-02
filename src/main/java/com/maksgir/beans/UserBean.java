@@ -1,19 +1,27 @@
 package com.maksgir.beans;
 
 
+import com.maksgir.dto.PointDTO;
 import com.maksgir.entity.UserEntity;
 import com.maksgir.service.UserService;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @ManagedBean(name = "userBean", eager = false)
 @SessionScoped
+@Getter
+@Setter
 public class UserBean {
 
     private String id;
@@ -21,33 +29,30 @@ public class UserBean {
     @ManagedProperty(value = "#{userService}")
     private UserService service;
 
+    private List<PointDTO> pointDTOList;
+
 
     public UserBean() {
-//        System.out.println("USER BEAN INIT");
         FacesContext fCtx = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) fCtx.getExternalContext().getSession(false);
         id = session.getId();
+        pointDTOList = new ArrayList<>();
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public UserService getService() {
-        return service;
-    }
-
-    public void setService(UserService service) {
-//        System.out.println("SET SERVICE IN USER BEAN");
-        this.service = service;
+    @PostConstruct
+    public void init(){
         service.save(this);
     }
 
+
     public UserEntity getUserEntity(){
         return service.getUserById(id);
+    }
+
+    public void clear(){
+        System.out.println("clear");
+        System.out.println(pointDTOList);
+        pointDTOList.clear();
+        service.clearPoints(this);
     }
 }

@@ -5,8 +5,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import jakarta.persistence.*;
-import java.sql.Date;
+
+import javax.faces.context.FacesContext;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Entity
 @Table(name = "points")
@@ -28,9 +30,6 @@ public class PointEntity {
     @Column(name = "r")
     private double r;
 
-    @Column(name = "timezone")
-    private int timezone;
-
     @Column(name = "dt")
     private LocalDateTime dt;
 
@@ -44,15 +43,15 @@ public class PointEntity {
     @JoinColumn(name = "owner_id")
     private UserEntity owner;
 
-    public PointEntity(double x, double y, double r, int timezone, double exe_time, boolean hit, UserEntity owner) {
+    public PointEntity(double x, double y, double r,  LocalDateTime dt, double exe_time, boolean hit, UserEntity owner) {
         this.x = x;
         this.y = y;
         this.r = r;
-        this.timezone = timezone;
-        this.dt = LocalDateTime.now();
+        this.dt = dt;
         this.exe_time = exe_time;
         this.hit = hit;
         this.owner = owner;
+
     }
 
     @Override
@@ -62,7 +61,6 @@ public class PointEntity {
                 ", x=" + x +
                 ", y=" + y +
                 ", r=" + r +
-                ", timezone=" + timezone +
                 ", dt=" + dt +
                 ", exe_time=" + exe_time +
                 ", hit=" + hit +

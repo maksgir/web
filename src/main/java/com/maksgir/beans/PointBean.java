@@ -5,8 +5,6 @@ import com.maksgir.service.PointService;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
@@ -18,17 +16,13 @@ public class PointBean {
     @Max(4)
     private double x;
 
-
     @Min(value = -3, message = "Y must be more than -3")
     @Max(value = 3, message = "Y must be less than 3")
     private double y;
 
-
     @Min(0)
     @Max(3)
     private double r;
-
-    private Integer timezone;
 
     @ManagedProperty(value = "#{pointService}")
     private PointService service;
@@ -69,14 +63,6 @@ public class PointBean {
         this.service = service;
     }
 
-    public Integer getTimezone() {
-        return timezone;
-    }
-
-    public void setTimezone(Integer timezone) {
-        this.timezone = timezone;
-    }
-
     public UserBean getUserBean() {
         return userBean;
     }
@@ -96,7 +82,6 @@ public class PointBean {
                 "x=" + x +
                 ", y=" + y +
                 ", r=" + r +
-                ", timezone=" + timezone +
                 '}';
     }
 }
