@@ -13,12 +13,10 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-@ManagedBean(name = "userBean", eager = false)
+@ManagedBean(name = "userBean")
 @SessionScoped
 @Getter
 @Setter

@@ -1,15 +1,21 @@
 package com.maksgir.beans;
 
 import com.maksgir.service.PointService;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 @ManagedBean(name = "point")
 @RequestScoped
+@Getter
+@Setter
 public class PointBean {
 
     @Min(-4)
@@ -24,6 +30,8 @@ public class PointBean {
     @Max(3)
     private double r;
 
+    private Integer timezone;
+
     @ManagedProperty(value = "#{pointService}")
     private PointService service;
 
@@ -31,48 +39,9 @@ public class PointBean {
     private UserBean userBean;
 
 
-    public double getX() {
-        return x;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    public double getR() {
-        return r;
-    }
-
-    public void setR(double r) {
-        this.r = r;
-    }
-
-    public PointService getService() {
-        return service;
-    }
-
-    public void setService(PointService service) {
-        this.service = service;
-    }
-
-    public UserBean getUserBean() {
-        return userBean;
-    }
-
-    public void setUserBean(UserBean userBean) {
-        this.userBean = userBean;
-    }
-
     public void submit() {
-        System.out.println("я в submit");
+        System.out.println("обновляю timezone - "+ timezone);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("timezone", timezone);
         service.save(this);
     }
 

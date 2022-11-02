@@ -1,13 +1,18 @@
 package com.maksgir.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 
-
+@NoArgsConstructor
 @Getter
 @Setter
 @ManagedBean
@@ -27,5 +32,12 @@ public class PointDTO {
         this.dt = dt;
         this.exe_time = exe_time;
         this.hit = hit;
+    }
+
+    public String getLocalZoneDt(){
+        int timezone= (Integer) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("timezone");
+        System.out.println(timezone);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
+        return dt.minusHours(timezone/60).format(formatter);
     }
 }

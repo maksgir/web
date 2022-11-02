@@ -26,7 +26,7 @@
     <div class="container">
 
         <div class="graph">
-            График
+            <div id="jxgbox" class="jxgbox" style="width:300px; height:300px;padding: 0px"></div>
         </div>
         <div class="order">
             <h:form>
@@ -62,8 +62,10 @@
                 </h:selectOneMenu>
                 <br/><br/>
 
+                <h:inputHidden value="#{point.timezone}" id="timezone"/>
+
                 <h:commandButton value="Submit" styleClass="button" action="#{point.submit}" type="submit">
-                    <f:ajax render="check_table" execute="x_val y_val r_val"/>
+                    <f:ajax render="check_table" execute="x_val y_val r_val timezone"/>
                 </h:commandButton>
             </h:form>
 
@@ -72,7 +74,9 @@
 
         <div class="order">
             <div class="info-table">
-
+                <h:commandButton value="Clear" styleClass="button" action="#{userBean.clear}" type="submit">
+                    <f:ajax render="check_table"/>
+                </h:commandButton>
                 <h:dataTable id="check_table" value="#{userBean.pointDTOList}" var="pointDTO">
                     <h:column styleClass="result">
                         <f:facet name="header"><a class="first-line">X</a></f:facet>
@@ -91,9 +95,7 @@
 
                     <h:column styleClass="result">
                         <f:facet name="header"><a class="first-line">Текущее время</a></f:facet>
-                        <h:outputText value="#{pointDTO.dt}">
-                            <f:convertDateTime type="zonedDateTime" pattern="yyyy-MM-dd HH:mm:ss"/>
-                        </h:outputText>
+                        #{pointDTO.getLocalZoneDt()}
                     </h:column>
 
                     <h:column styleClass="result">
@@ -106,9 +108,7 @@
                         #{pointDTO.hit}
                     </h:column>
                 </h:dataTable>
-                <h:commandButton value="Clear" styleClass="button" action="#{userBean.clear}" type="submit">
-                    <f:ajax render="check_table"/>
-                </h:commandButton>
+
             </div>
         </div>
 
