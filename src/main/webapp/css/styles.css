@@ -119,3 +119,11 @@ tr > th {
     margin: 5%;
     border-color: rgba(224, 0, 253, 0.92);
 }
+
+.time-wrapper {
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+}
