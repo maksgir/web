@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS "public"."points" (
     y double precision CHECK (y>=-3 and y<=3) NOT NULL,
     r double precision CHECK (r>=1 and x<=3) NOT NULL,
     timezone INT NOT NULL,
-    dt DATE NOT NULL,
+    dt TIMESTAMP NOT NULL,
     exe_time double precision NOT NULL,
     owner_id VARCHAR(50) NOT NULL,
     hit BOOLEAN NOT NULL,

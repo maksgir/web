@@ -4,6 +4,7 @@ import com.maksgir.config.AppConfig;
 import com.maksgir.entity.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
 import javax.faces.bean.ApplicationScoped;
@@ -38,6 +39,8 @@ public class UserDAO {
             session.beginTransaction();
 
             user = session.get(UserEntity.class, id);
+
+            Hibernate.initialize(user.getPoints());
 
             session.getTransaction().commit();
         } catch (Exception e) {

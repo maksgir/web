@@ -32,6 +32,10 @@ public class UserService {
         dao.save(userEntity);
     }
 
+    public UserEntity getUserById(String id){
+        return dao.getById(id);
+    }
+
     public UserDAO getDao() {
         return dao;
     }

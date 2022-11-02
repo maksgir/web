@@ -1,6 +1,7 @@
 package com.maksgir.beans;
 
 
+import com.maksgir.entity.UserEntity;
 import com.maksgir.service.UserService;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +12,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
-@ManagedBean(name = "sessionId", eager = false)
+@ManagedBean(name = "userBean", eager = false)
 @SessionScoped
 public class UserBean {
 
@@ -19,7 +20,6 @@ public class UserBean {
 
     @ManagedProperty(value = "#{userService}")
     private UserService service;
-
 
 
     public UserBean() {
@@ -45,5 +45,9 @@ public class UserBean {
 //        System.out.println("SET SERVICE IN USER BEAN");
         this.service = service;
         service.save(this);
+    }
+
+    public UserEntity getUserEntity(){
+        return service.getUserById(id);
     }
 }

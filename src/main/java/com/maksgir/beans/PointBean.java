@@ -28,9 +28,14 @@ public class PointBean {
     @Max(3)
     private double r;
 
+    private Integer timezone;
 
     @ManagedProperty(value = "#{pointService}")
     private PointService service;
+
+    @ManagedProperty(value = "#{userBean}")
+    private UserBean userBean;
+
 
     public double getX() {
         return x;
@@ -64,11 +69,25 @@ public class PointBean {
         this.service = service;
     }
 
+    public Integer getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(Integer timezone) {
+        this.timezone = timezone;
+    }
+
+    public UserBean getUserBean() {
+        return userBean;
+    }
+
+    public void setUserBean(UserBean userBean) {
+        this.userBean = userBean;
+    }
+
     public void submit() {
-        FacesContext fCtx = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) fCtx.getExternalContext().getSession(false);
-        String sessionId = session.getId();
-        System.out.println(sessionId);
+        System.out.println("я в submit");
+        service.save(this);
     }
 
     @Override
@@ -77,6 +96,7 @@ public class PointBean {
                 "x=" + x +
                 ", y=" + y +
                 ", r=" + r +
+                ", timezone=" + timezone +
                 '}';
     }
 }
