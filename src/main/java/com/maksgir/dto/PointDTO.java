@@ -3,11 +3,15 @@ package com.maksgir.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import java.time.LocalDateTime;
 
 
 @Getter
 @Setter
+@ManagedBean
+@RequestScoped
 public class PointDTO {
     private double x;
     private double y;

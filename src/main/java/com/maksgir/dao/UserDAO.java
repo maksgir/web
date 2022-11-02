@@ -15,10 +15,6 @@ import javax.faces.bean.ManagedBean;
 @ApplicationScoped
 public class UserDAO {
 
-    public UserDAO() {
-//        System.out.println("USER DAO INIT");
-    }
-
     public void save(UserEntity user) {
         try (Session session = AppConfig.sessionFactory.getCurrentSession();) {
             session.beginTransaction();

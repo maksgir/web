@@ -63,29 +63,55 @@
                 <br/><br/>
 
                 <h:commandButton value="Submit" styleClass="button" action="#{point.submit}" type="submit">
-                    <f:ajax execute="x_val y_val r_val"/>
+                    <f:ajax render="check_table" execute="x_val y_val r_val"/>
                 </h:commandButton>
             </h:form>
 
         </div>
-        <div class="order">
-            <table id="result_table">
-                <h:commandButton value="Clear" styleClass="button" action="#{userBean.clear}" type="submit">
-                    <f:ajax/>
-                </h:commandButton>
-                <tr class="first-line">
-                    <th>X</th>
-                    <th>Y</th>
-                    <th>R</th>
-                    <th>Текущее время</th>
-                    <th>Время выполнения</th>
-                    <th>Результат</th>
-                </tr>
-                <tbody id="table_body">
 
-                </tbody>
-            </table>
+
+        <div class="order">
+            <div class="info-table">
+
+                <h:dataTable id="check_table" value="#{userBean.pointDTOList}" var="pointDTO">
+                    <h:column styleClass="result">
+                        <f:facet name="header"><a class="first-line">X</a></f:facet>
+                        #{pointDTO.x}
+                    </h:column>
+
+                    <h:column styleClass="result">
+                        <f:facet name="header"><a class="first-line">Y</a></f:facet>
+                        #{pointDTO.y}
+                    </h:column>
+
+                    <h:column styleClass="result">
+                        <f:facet name="header"><a class="first-line">R</a></f:facet>
+                        #{pointDTO.r}
+                    </h:column>
+
+                    <h:column styleClass="result">
+                        <f:facet name="header"><a class="first-line">Текущее время</a></f:facet>
+                        <h:outputText value="#{pointDTO.dt}">
+                            <f:convertDateTime type="zonedDateTime" pattern="yyyy-MM-dd HH:mm:ss"/>
+                        </h:outputText>
+                    </h:column>
+
+                    <h:column styleClass="result">
+                        <f:facet name="header"><a class="first-line">Время выполнения</a></f:facet>
+                        #{pointDTO.exe_time}
+                    </h:column>
+
+                    <h:column styleClass="result">
+                        <f:facet name="header"><a class="first-line">Результат</a></f:facet>
+                        #{pointDTO.hit}
+                    </h:column>
+                </h:dataTable>
+                <h:commandButton value="Clear" styleClass="button" action="#{userBean.clear}" type="submit">
+                    <f:ajax render="check_table"/>
+                </h:commandButton>
+            </div>
         </div>
+
     </div>
     <footer class="place">
         <span><a href="https://github.com/maksgir"><img style="border-radius: 10px" src="img/gitlogo.png" alt=""/></a></span>
