@@ -5,9 +5,7 @@
     <title>Веб</title>
     <link href="css/styles.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css"/>
-    <script src="js/table_worker.js"></script>
-    <script src="js/submit_data.js"></script>
-    <script src="js/validator.js"></script>
+
     <script src="js/graph.js"></script>
     <script src="jquery/jquery-3.6.1.js"></script>
     <script type="text/javascript" charset="UTF-8"

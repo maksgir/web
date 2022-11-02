@@ -2,10 +2,7 @@ $(function () {
     console.log("ready!");
 
     let board = JXG.JSXGraph.initBoard('jxgbox', {boundingbox: [-8, 6, 8, -6], axis: true, showCopyright: false});
-    let figures = [];
-    var points = [];
-
-    initialize_table(board);
+    let r = $('#r_val').val();
 
     $('#r_val').on('change', function () {
         clearFigures(board, figures);
@@ -35,25 +32,6 @@ $(function () {
             alert("Нужно выбрать R");
         }
     });
-
-
-    $('#submitButton').click(function (event) {
-        let x = $('#x_val').val();
-        let y = $('#y_val').val();
-        let r = $('#r_val').val();
-        if (!isCorrect(x, y, r)) {
-            alert("Данные не верны");
-        } else {
-            saveData(board, x, y, r, points);
-        }
-    });
-
-    $('#clearButton').click(function (event) {
-        clearFigures(board, figures);
-        clean_table(points);
-    });
-
-
 });
 
 function clearFigures(board, figures) {
