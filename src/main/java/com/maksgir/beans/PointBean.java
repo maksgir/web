@@ -4,7 +4,6 @@ import com.maksgir.service.PointService;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
@@ -41,6 +40,7 @@ public class PointBean {
 
     public void submit() {
         System.out.println("обновляю timezone - "+ timezone);
+        System.out.println(this);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("timezone", timezone);
         service.save(this);
     }
@@ -51,6 +51,7 @@ public class PointBean {
                 "x=" + x +
                 ", y=" + y +
                 ", r=" + r +
+                ", timezone=" + timezone +
                 '}';
     }
 }

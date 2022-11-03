@@ -11,7 +11,7 @@ $(function () {
     let circle = createCircle(board, 1);
     figures = [rectangle, triangle, circle];
 
-    $('[id="j_idt9:r_val"]').on('change', function () {
+    $('[id="form:r_val"]').on('change', function () {
         clearFigures(board, figures);
         let newRadius = this.value;
         let rectangle = createRectangle(board, newRadius);
@@ -20,6 +20,10 @@ $(function () {
         figures = [rectangle, triangle, circle];
 
         updatePoints();
+    });
+
+    $('[id="form:x_selector"]').on("change", function () {
+        $('[id="form:x_val"]').val($(this).val());
     });
 
     board.on("down", function (event) {
@@ -31,8 +35,11 @@ $(function () {
             let coords = board.getUsrCoordsOfMouse(event);
             let x = coords[0].toFixed(2);
             let y = coords[1].toFixed(2);
-            let r = $('#r_val').val()
-            saveData(board, x, y, r, points);
+            let r = $('[id="form:r_val"]').val();
+            console.log(x + " " + y + " " + r);
+            $('[id="form:x_val"]').val(x);
+            $('[id="form:y_val"]').val(y);
+            $('[id="form:submitBtn"]').click();
         } else {
             alert("Нужно выбрать R");
         }
@@ -40,6 +47,11 @@ $(function () {
 
 
 });
+
+function check_r() {
+    let r = $('[id="form:r_val"]').val()
+    return [1, 1.5, 2, 2.5, 3].includes(Number(r));
+}
 
 function clearFigures(board, figures) {
     for (const object of figures) {
@@ -97,7 +109,6 @@ function drawPointsByR(r) {
 }
 
 function clearPoints() {
-    console.log("clear points");
     for (const point of points) {
         board.removeObject(point);
     }
