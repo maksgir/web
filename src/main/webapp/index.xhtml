@@ -13,7 +13,8 @@
     <title>Main Page</title>
     <link href="css/styles.css" rel="stylesheet"/>
     <script src="js/init.js" type="text/javascript"></script>
-
+    <script type="text/javascript" charset="UTF-8"
+            src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
 </h:head>
 
 
@@ -28,46 +29,49 @@
     <div class="container">
         <div class="graph">
             <div id="jxgbox" class="jxgbox" style="width:300px; height:300px;padding: 0px"></div>
+            <script src="js/graph.js" type="text/javascript"></script>
         </div>
         <div class="order">
             <h:form>
                 <label><h3>Значение Х</h3></label>
-                <h:selectOneMenu id="x_val" styleClass="choose" value = "#{point.x}">
-                    <f:selectItem itemValue = "-4" />
-                    <f:selectItem itemValue = "-3" />
-                    <f:selectItem itemValue = "-2" />
-                    <f:selectItem itemValue = "-1" />
-                    <f:selectItem itemValue = "0" />
-                    <f:selectItem itemValue = "1" />
-                    <f:selectItem itemValue = "2" />
-                    <f:selectItem itemValue = "3" />
-                    <f:selectItem itemValue = "4" />
+                <h:selectOneMenu id="x_val" styleClass="choose" value="#{point.x}">
+                    <f:selectItem itemValue="-4"/>
+                    <f:selectItem itemValue="-3"/>
+                    <f:selectItem itemValue="-2"/>
+                    <f:selectItem itemValue="-1"/>
+                    <f:selectItem itemValue="0"/>
+                    <f:selectItem itemValue="1"/>
+                    <f:selectItem itemValue="2"/>
+                    <f:selectItem itemValue="3"/>
+                    <f:selectItem itemValue="4"/>
                 </h:selectOneMenu>
                 <br/><br/>
 
                 <label><h3>Значение Y</h3></label>
-                <h:inputText id="y_val" styleClass="choose" value="#{point.y}" validatorMessage="Range of y val is between -3 and 3">
-                    <f:validateDoubleRange minimum="-3" maximum="3" />
+                <h:inputText id="y_val" styleClass="choose" value="#{point.y}"
+                             validatorMessage="Range of y val is between -3 and 3">
+                    <f:validateDoubleRange minimum="-3" maximum="3"/>
                 </h:inputText>
-                <h:message for="y_val" style="color:rgba(253,0,67,0.92)" />
+                <h:message for="y_val" style="color:rgba(253,0,67,0.92)"/>
 
                 <br/><br/>
 
                 <label><h3>Значение R</h3></label>
-                <h:selectOneMenu id="r_val" styleClass="choose" value = "#{point.r}">
-                    <f:selectItem itemValue = "1" />
-                    <f:selectItem itemValue = "1.5" />
-                    <f:selectItem itemValue = "2" />
-                    <f:selectItem itemValue = "2.5" />
-                    <f:selectItem itemValue = "3" />
+                <h:selectOneMenu id="r_val" styleClass="choose" value="#{point.r}">
+                    <f:selectItem itemValue="1"/>
+                    <f:selectItem itemValue="1.5"/>
+                    <f:selectItem itemValue="2"/>
+                    <f:selectItem itemValue="2.5"/>
+                    <f:selectItem itemValue="3"/>
                 </h:selectOneMenu>
                 <br/><br/>
 
                 <h:inputHidden value="#{point.timezone}" id="timezone"/>
 
                 <h:commandButton value="Submit" styleClass="button" action="#{point.submit}" type="submit">
-                    <f:ajax render="check_table" execute="x_val y_val r_val timezone"/>
+                    <f:ajax render="check_table script" execute="x_val y_val r_val timezone"/>
                 </h:commandButton>
+
             </h:form>
 
         </div>
@@ -76,7 +80,7 @@
         <div class="order">
             <div class="info-table">
                 <h:commandButton value="Clear" styleClass="button" action="#{userBean.clear}" type="submit">
-                    <f:ajax render="check_table"/>
+                    <f:ajax render="check_table script"/>
                 </h:commandButton>
                 <h:dataTable id="check_table" value="#{userBean.pointDTOList}" var="pointDTO">
                     <h:column styleClass="result">
@@ -115,8 +119,26 @@
 
     </div>
     <footer class="place">
-        <span><a href="https://github.com/maksgir"><img style="border-radius: 10px" src="img/gitlogo.png" alt=""/></a></span>
+        <span><a href="https://github.com/maksgir"><img style="border-radius: 10px" src="img/gitlogo.png"
+                                                        alt=""/></a></span>
     </footer>
 
+
+    <h:panelGroup id="script">
+        <h:outputScript>
+            function updatePoints() {
+            console.log("update points!!!");
+            clearPoints();
+            serverPoints = [
+            <ui:repeat value="#{userBean.pointDTOList}" var="point">
+                {x: #{point.x}, y: #{point.y}, r: #{point.r}, hit: #{point.hit}},
+            </ui:repeat>
+            ];
+            drawPointsByR($('[id="j_idt9:r_val"]').val());
+            }
+            updatePoints();
+            console.log("*********************************");
+        </h:outputScript>
+    </h:panelGroup>
 </h:body>
 </html>

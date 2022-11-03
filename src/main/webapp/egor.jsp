@@ -10,6 +10,13 @@
     <script src="jquery/jquery-3.6.1.js"></script>
     <script type="text/javascript" charset="UTF-8"
             src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+    <script type="text/javascript">
+        function printt(){
+            var list = #{userBean.pointDTOList};
+            console.log(list.length);
+        }
+
+    </script>
 
 
 </head>

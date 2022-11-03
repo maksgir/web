@@ -1,10 +1,17 @@
+let board;
+let points = [];
+let serverPoints = [];
+let figures = []
+
 $(function () {
-    console.log("ready!");
+    board = JXG.JSXGraph.initBoard('jxgbox', {boundingbox: [-8, 6, 8, -6], axis: true, showCopyright: false});
 
-    let board = JXG.JSXGraph.initBoard('jxgbox', {boundingbox: [-8, 6, 8, -6], axis: true, showCopyright: false});
-    let r = $('#r_val').val();
+    let rectangle = createRectangle(board, 1);
+    let triangle = createTriangle(board, 1);
+    let circle = createCircle(board, 1);
+    figures = [rectangle, triangle, circle];
 
-    $('#r_val').on('change', function () {
+    $('[id="j_idt9:r_val"]').on('change', function () {
         clearFigures(board, figures);
         let newRadius = this.value;
         let rectangle = createRectangle(board, newRadius);
@@ -12,9 +19,7 @@ $(function () {
         let circle = createCircle(board, newRadius);
         figures = [rectangle, triangle, circle];
 
-        points.forEach(element => element.remove());
-        points = [];
-        getPoints(board, newRadius, points);
+        updatePoints();
     });
 
     board.on("down", function (event) {
@@ -32,6 +37,8 @@ $(function () {
             alert("Нужно выбрать R");
         }
     });
+
+
 });
 
 function clearFigures(board, figures) {
@@ -71,11 +78,28 @@ function createCircle(board, r) {
 }
 
 function createPoint(board, x, y, hit) {
-    console.log(hit);
-    let color = (hit === "Попал" ? "#7ce57c" : "#dc4a4a");
+    let color = (hit ? "#7ce57c" : "#dc4a4a");
     return board.create("point", [x, y], {
         name: '', fixed: true, fillColor: color, fillOpacity: 1,
         strokewidth: 0
     });
 
+}
+
+function drawPointsByR(r) {
+    for (let i = 0; i < serverPoints.length; i++) {
+        let serverPoint = serverPoints[i];
+        if (parseFloat(r) === serverPoint.r) {
+            let point = createPoint(board, serverPoint.x, serverPoint.y, serverPoint.hit);
+            points.push(point);
+        }
+    }
+}
+
+function clearPoints() {
+    console.log("clear points");
+    for (const point of points) {
+        board.removeObject(point);
+    }
+    points = []
 }
