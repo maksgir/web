@@ -51,9 +51,9 @@
                 <label><h3>Значение Y</h3></label>
                 <h:inputText id="y_val" styleClass="choose" value="#{point.y}"
                              validatorMessage="Range of y val is between -3 and 3">
-                    <f:validateDoubleRange minimum="-3" maximum="3"/>
+                    <f:validateDoubleRange minimum="-3" maximum="3" />
                 </h:inputText>
-                <h:message for="y_val" style="color:rgba(253,0,67,0.92)"/>
+                <h:message for="y_val" style="color:rgb(63,253,0)"/>
 
                 <br/><br/>
 
@@ -67,10 +67,16 @@
                 </h:selectOneMenu>
                 <br/><br/>
 
+                <label><h3>Выбери своего бойца</h3></label>
+                <h:selectOneMenu id="type" styleClass="choose" value="#{point.type}">
+                    <f:selectItem itemValue="Павук"/>
+                    <f:selectItem itemValue="Муравей"/>
+                </h:selectOneMenu>
+
                 <h:inputHidden value="#{point.timezone}" id="timezone"/>
 
                 <h:commandButton id="submitBtn" value="Submit" styleClass="button" action="#{point.submit}" type="submit">
-                    <f:ajax render="check_table script" execute="x_val y_val r_val timezone"/>
+                    <f:ajax render="check_table script" execute="x_val y_val r_val timezone type"/>
                 </h:commandButton>
 
             </h:form>
@@ -112,6 +118,11 @@
                     <h:column styleClass="result">
                         <f:facet name="header"><a class="first-line">Результат</a></f:facet>
                         #{pointDTO.hit}
+                    </h:column>
+
+                    <h:column styleClass="result">
+                        <f:facet name="header"><a class="first-line">Тип точки</a></f:facet>
+                        #{pointDTO.type}
                     </h:column>
                 </h:dataTable>
 

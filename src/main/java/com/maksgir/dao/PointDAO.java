@@ -11,14 +11,23 @@ import javax.faces.bean.ManagedBean;
 @ApplicationScoped
 public class PointDAO {
     public void save(PointEntity point) {
-        try (Session session = AppConfig.sessionFactory.getCurrentSession();) {
+        Session session = AppConfig.sessionFactory.getCurrentSession();
+        try {
             session.beginTransaction();
 
             session.save(point);
 
             session.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch ( Exception e ) {
+            if ( session.getTransaction().isActive() ) {
+                session.getTransaction().rollback();
+            }
+            throw e;
+        }
+        finally {
+            if ( session != null && session.isOpen() ) {
+                session.close();
+            }
         }
     }
 }

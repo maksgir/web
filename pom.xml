@@ -97,9 +97,14 @@
 
 
     <build>
-        <finalName>web2</finalName>
+        <finalName>web3</finalName>
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
             <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.3.2</version>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>

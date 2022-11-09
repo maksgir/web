@@ -29,6 +29,8 @@ public class PointBean {
     @Max(3)
     private double r;
 
+    private String type;
+
     private Integer timezone;
 
     @ManagedProperty(value = "#{pointService}")
@@ -39,8 +41,6 @@ public class PointBean {
 
 
     public void submit() {
-        System.out.println("обновляю timezone - "+ timezone);
-        System.out.println(this);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("timezone", timezone);
         service.save(this);
     }

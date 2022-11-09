@@ -6,18 +6,17 @@ import lombok.Setter;
 
 import jakarta.persistence.*;
 
-import javax.faces.context.FacesContext;
 import java.time.LocalDateTime;
-import java.util.Map;
 
 @Entity
 @Table(name = "points")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Getter
 @Setter
 @NoArgsConstructor
-public class PointEntity {
+public abstract class PointEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
     private long id;
 
